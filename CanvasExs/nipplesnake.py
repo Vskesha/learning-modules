@@ -130,10 +130,8 @@ class Board(Canvas):
 
     def move_snake(self):
         dots = self.find_withtag('dot')
-        print(dots)
         head = self.find_withtag('head')
         items = dots + head
-        print(items)
         z = 0
         while z < len(items) - 1:
             c1 = self.coords(items[z])
