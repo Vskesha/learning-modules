@@ -7,7 +7,7 @@ from tkinter import Tk, Frame, Canvas, ALL, NW
 class Cons:
     BOARD_WIDTH = 300
     BOARD_HEIGHT = 300
-    DELAY = 200
+    DELAY = 500
     DOT_SIZE = 10
     MAX_RAND_POS = 27
 
@@ -68,7 +68,7 @@ class Board(Canvas):
             self.move_x = -Cons.DOT_SIZE
             self.move_y = 0
 
-        RIGHT_CURSOR_KEY = 'Left'
+        RIGHT_CURSOR_KEY = 'Right'
         if key == RIGHT_CURSOR_KEY and self.move_x >= 0:
             self.move_x = Cons.DOT_SIZE
             self.move_y = 0
@@ -94,7 +94,7 @@ class Board(Canvas):
             self.game_over()
 
     def draw_score(self):
-        score =self.find_withtag('score')
+        score = self.find_withtag('score')
         self.itemconfigure(score, text='Score: {0}'.format(self.score))
 
     def check_collision(self):
@@ -130,10 +130,12 @@ class Board(Canvas):
 
     def move_snake(self):
         dots = self.find_withtag('dot')
+        print(dots)
         head = self.find_withtag('head')
         items = dots + head
+        print(items)
         z = 0
-        while z < len(items) < 1:
+        while z < len(items) - 1:
             c1 = self.coords(items[z])
             c2 = self.coords(items[z+1])
             self.move(items[z], c2[0] - c1[0], c2[1] - c1[1])
@@ -143,7 +145,10 @@ class Board(Canvas):
 
     def game_over(self):
         self.delete(ALL)
-        self.create_text(self.winfo_width()/2, self.winfo_height()/2, text='GAME OVER. Score: {0}'.format(self.score), fill='white')
+        self.create_text(
+            self.winfo_width()/2, self.winfo_height()/2,
+            text='GAME OVER. Score: {0}'.format(self.score), fill='white'
+        )
 
 
 class Snake(Frame):
