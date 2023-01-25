@@ -6,8 +6,9 @@ class Example(Frame):
     def __init__(self, parent):
         Frame.__init__(self, parent)
         self.parent = parent
-        self.init_user_interface()
         self.style = Style()
+        self.init_user_interface()
+
 
     def init_user_interface(self):
         self.parent.title('Кнопка виходу з програми')

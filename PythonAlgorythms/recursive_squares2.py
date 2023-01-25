@@ -19,4 +19,14 @@ def fractal_rectangle(A, B, C, D, deep=10):
 
 if __name__ == '__main__':
     fractal_rectangle((100, 100), (500, 100), (500, 500), (100, 500))
+    A = window.getMouse()
+    for i in range(10):
+        B = window.getMouse()
+        gr.Line(A, B).draw(window)
+        A = B
+    text = gr.Text(A, 'Click to Close the Window')
+    text.setSize(20)
+    #text.setStyle('Arial')
+    text.setTextColor('red')
+    text.draw(window)
     print(window.getMouse())
