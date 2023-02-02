@@ -8,7 +8,7 @@ class Example(Frame):
         self.initUI()
 
     def initUI(self):
-        self.master.title('add a submenu')
+        self.master.title('add list_a submenu')
 
         menubar = Menu(self.master)
         self.master.config(menu=menubar)

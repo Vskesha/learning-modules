@@ -9,7 +9,7 @@ class Example(Frame):
         self.init_user_interface()
 
     def init_user_interface(self):
-        self.master.title('Leave a comment')
+        self.master.title('Leave list_a comment')
         self.pack(fill=BOTH, expand=True)
 
 
