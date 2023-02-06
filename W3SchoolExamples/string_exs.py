@@ -343,6 +343,29 @@ def get_max_occuring_char(string: str):
     return sorted(chars.items(), key=lambda kv: kv[1], reverse=True)[0][0]
 
 
+def capitalize_first_last_letters(string: str):
+    words = string.split()
+    cwords = []
+    for word in words:
+        cwords.append(word[:-1].capitalize() + word[-1].upper())
+    return ' '.join(cwords)
+
+
+def remove_duplicate(string: str):
+    # char_list = [char for char in string]
+    # char_list = list(dict.fromkeys(char_list))
+    # return ''.join(char_list)
+    return ''.join(collections.OrderedDict.fromkeys(string))
+
+
+def sum_digits_string(string: str):
+    s = 0
+    for char in string:
+        if char.isdigit():
+            s += int(char)
+    return s
+
+
 if __name__ == '__main__':
     print('Length of string is', length_string('w3resource.com'))
     print('Char map is: ', chars_count('google.com'))
@@ -446,7 +469,7 @@ if __name__ == '__main__':
     print(all_repeat('xyz', 3))
     print(all_repeat('xyz', 2))
     print(all_repeat('abcd', 4))
-    for numb in all_repeat(range(2), 4):
+    for numb in all_repeat('01', 4):
         print(*numb, sep='')
     print(first_repeating_character('abcdef'))
     print(first_repeating_character('abcabcdef'))
@@ -470,3 +493,9 @@ if __name__ == '__main__':
     print(move_spaces_to_front("   w3resource.com  "))
     print(get_max_occuring_char("Python: Get file creation and modification date/times"))
     print(get_max_occuring_char("abcdefghijkb"))
+    print(capitalize_first_last_letters("python exercises practice solution"))
+    print(capitalize_first_last_letters("w3resource"))
+    print(remove_duplicate("python exercises practice solution"))
+    print(remove_duplicate("w3resource"))
+    print(sum_digits_string("123abcd45"))
+    print(sum_digits_string("abcd1234"))
