@@ -296,6 +296,53 @@ def all_repeat(string: str, rep_number: int = 1):
     return [rep for rep in itertools.product(string, repeat=rep_number)]
 
 
+def first_repeating_character(string: str):
+    for char in string.replace(' ', '').lower():
+        if string.count(char) > 1:
+            return char
+    return None
+
+
+def first_repeated_word(string: str):
+    words = string.lower().split()
+    temp = []
+    for word in words:
+        if word in temp:
+            return word
+        else:
+            temp.append(word)
+    return None
+
+
+def second_most_repeated_word(string: str):
+    words_count = collections.defaultdict(int)
+    words = string.lower().split()
+    for word in words:
+        words_count[word] += 1
+    print(words_count)
+    second = sorted(words_count, key=words_count.get, reverse=True)[1]
+    value = words_count[second]
+    return second, value
+
+
+def remove_spaces(string: str):
+    return string.replace(' ', '')
+
+
+def move_spaces_to_front(string: str):
+    return string.replace(' ', '').rjust(len(string), ' ')
+
+
+def get_max_occuring_char(string: str):
+    chars = dict()
+    for char in string.replace(' ', '').lower():
+        if char in chars:
+            chars[char] += 1
+        else:
+            chars[char] = 1
+    return sorted(chars.items(), key=lambda kv: kv[1], reverse=True)[0][0]
+
+
 if __name__ == '__main__':
     print('Length of string is', length_string('w3resource.com'))
     print('Char map is: ', chars_count('google.com'))
@@ -401,3 +448,25 @@ if __name__ == '__main__':
     print(all_repeat('abcd', 4))
     for numb in all_repeat(range(2), 4):
         print(*numb, sep='')
+    print(first_repeating_character('abcdef'))
+    print(first_repeating_character('abcabcdef'))
+    print(first_repeating_character('aabbcc'))
+    print(first_repeated_word("ab ca bc ab"))
+    print(first_repeated_word("ab ca bc ab ca ab bc"))
+    print(first_repeated_word("ab ca bc ca ab bc"))
+    print(first_repeated_word("ab ca bc"))
+    print(second_most_repeated_word("Both of these issues are fixed by postponing the evaluation of annotations. "
+                                    "Instead of compiling code which executes expressions in annotations at their "
+                                    "definition time, the compiler stores the annotation in a string form "
+                                    "equivalent to the AST of the expression in question. If needed, annotations "
+                                    "can be resolved at runtime using typing.get_type_hints(). In the common case "
+                                    "where this is not required, the annotations are cheaper to store (since "
+                                    "short strings are interned by the interpreter) and make startup time faster."))
+    print(second_most_repeated_word('''I felt happy because I saw others were happy and because I knew I should
+                                    feel happy, but I wasn't really happy'''))
+    print(remove_spaces("w 3 res ou r ce"))
+    print(remove_spaces("a b c"))
+    print(move_spaces_to_front("w3resource .  com  "))
+    print(move_spaces_to_front("   w3resource.com  "))
+    print(get_max_occuring_char("Python: Get file creation and modification date/times"))
+    print(get_max_occuring_char("abcdefghijkb"))
