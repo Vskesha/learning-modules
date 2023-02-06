@@ -123,8 +123,8 @@ def reverse_if_multiple_four(string: str):
 
 def upper_if_2of4(string: str):
     count = 0
-    for i in range(4):
-        if string[i] == string.upper()[i]:
+    for ind in range(4):
+        if string[ind] == string.upper()[ind]:
             count += 1
     return string.upper() if count >= 2 else string
 
@@ -222,7 +222,37 @@ def count_repeated_characters(string: str):
     for char in string.replace(' ', ''):
         count_dict[char] += 1
     print(count_dict)
-    return {key: count_dict[key] for key in sorted(count_dict, key=count_dict.get, reverse=True) if count_dict[key] > 1}
+    return {keyy: count_dict[keyy] for keyy in sorted(count_dict, key=count_dict.get,
+                                                      reverse=True) if count_dict[keyy] > 1}
+
+
+def superscript(string: str):
+    superscript_map = {
+        "0": "⁰", "1": "¹", "2": "²", "3": "³", "4": "⁴", "5": "⁵", "6": "⁶",
+        "7": "⁷", "8": "⁸", "9": "⁹", "a": "ᵃ", "b": "ᵇ", "c": "ᶜ", "d": "ᵈ",
+        "e": "ᵉ", "f": "ᶠ", "g": "ᵍ", "h": "ʰ", "i": "ᶦ", "j": "ʲ", "k": "ᵏ",
+        "l": "ˡ", "m": "ᵐ", "n": "ⁿ", "o": "ᵒ", "p": "ᵖ", "q": "۹", "r": "ʳ",
+        "s": "ˢ", "t": "ᵗ", "u": "ᵘ", "v": "ᵛ", "w": "ʷ", "x": "ˣ", "y": "ʸ",
+        "z": "ᶻ", "A": "ᴬ", "B": "ᴮ", "C": "ᶜ", "D": "ᴰ", "E": "ᴱ", "F": "ᶠ",
+        "G": "ᴳ", "H": "ᴴ", "I": "ᴵ", "J": "ᴶ", "K": "ᴷ", "L": "ᴸ", "M": "ᴹ",
+        "N": "ᴺ", "O": "ᴼ", "P": "ᴾ", "Q": "Q", "R": "ᴿ", "S": "ˢ", "T": "ᵀ",
+        "U": "ᵁ", "V": "ⱽ", "W": "ᵂ", "X": "ˣ", "Y": "ʸ", "Z": "ᶻ", "+": "⁺",
+        "-": "⁻", "=": "⁼", "(": "⁽", ")": "⁾"}
+    transtable = str.maketrans(superscript_map)
+    return string.translate(transtable)
+
+
+def char_position(string: str):
+    for pos, char in enumerate(string):
+        print(f'Current character {char} position at {pos}')
+
+
+def is_all_alphabet_letters(string: str):
+    alphabet = 'abcdefghijklmnopqrstuvwxyz'
+    for let in alphabet:
+        if let not in string.lower():
+            return False
+    return True
 
 
 if __name__ == '__main__':
@@ -273,7 +303,8 @@ if __name__ == '__main__':
     as C++ or Java.
     '''
     print(format_width(sample_text, width=50))
-    print(textwrap.fill(text_without_indentations(sample_text), width=60, drop_whitespace=True, replace_whitespace=True))
+    print(textwrap.fill(text_without_indentations(sample_text), width=60, 
+                        drop_whitespace=True, replace_whitespace=True))
     print(add_prefix_each_line(text_without_indentations(sample_text), '>'))
     print(first_line_indent(sample_text, '|||||'))
     print(round_2_decimals(3.1415926), round_2_decimals(12.99999))
@@ -297,3 +328,19 @@ if __name__ == '__main__':
     print(remove_letters('The quick brown fox', 'aeiou'))
     for key, value in count_repeated_characters('the quick brown fox jumps over the lazy dog').items():
         print(f'{key}: {value}')
+    for i in range(100):
+        for j in range(100):
+            if i*100+j > 7450:
+                print(chr(i*100+j), end=' ')
+        print()
+    print('\u00b3', ord('\u00b3'), chr(ord('\u00b3')))
+    print('superstring', superscript('The brown fox jumps over the lazy dog'))
+    print(f'cubic cm: cm{superscript("3")} and square cm is: cm{superscript("2")}')
+    print('and what about this?')
+    print('01234567890 ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz')
+    print(superscript('01234567890 ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz'))
+    # for char in superscript('01234567890 ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz'):
+    #     print(f'{char}: {ord(char)}')
+    char_position('JavaScript')
+    print(is_all_alphabet_letters('The quick brown fox jumps over the lazy dog'))
+    print(is_all_alphabet_letters('The quick brown fox jumps over the lazy cat'))
