@@ -1,5 +1,7 @@
 import textwrap
 import collections
+from string import ascii_lowercase
+import itertools
 
 
 def length_string(string):
@@ -248,11 +250,50 @@ def char_position(string: str):
 
 
 def is_all_alphabet_letters(string: str):
-    alphabet = 'abcdefghijklmnopqrstuvwxyz'
+    alphabet = ascii_lowercase
+    # print(alphabet)
     for let in alphabet:
         if let not in string.lower():
             return False
     return True
+
+
+def analog_split(string: str):
+    return string.split()
+
+
+def lowercase_n_characters(string: str, n: int):
+    return string[0:n].lower() + string[n:]
+
+
+def swap_commas_dots(string: str):
+    transtab = str.maketrans(',.', '.,')
+    return string.translate(transtab)
+
+
+def count_and_return_vowels(string: str):
+    count_vowels = 0
+    vowel_list = list()
+    for vowel in 'aeyuio':
+        if vowel in string.lower():
+            vowel_list.append(vowel)
+            count_vowels += string.count(vowel)
+    return count_vowels, vowel_list
+
+
+def split_n_delimiter(string: str, delimiter=' ', maxsplit=-1):
+    return string.rsplit(sep=delimiter, maxsplit=maxsplit)
+
+
+def first_non_repeating_character(string: str):
+    for char in string.replace(' ','').lower():
+        if string.lower().count(char) == 1:
+            return char
+    return None
+
+
+def all_repeat(string: str, rep_number: int = 1):
+    return [rep for rep in itertools.product(string, repeat=rep_number)]
 
 
 if __name__ == '__main__':
@@ -344,3 +385,19 @@ if __name__ == '__main__':
     char_position('JavaScript')
     print(is_all_alphabet_letters('The quick brown fox jumps over the lazy dog'))
     print(is_all_alphabet_letters('The quick brown fox jumps over the lazy cat'))
+    print(analog_split('This is a test string'))
+    print(lowercase_n_characters('W3RESOURCE.COM', 4))
+    print(swap_commas_dots('32.054,23'))
+    for x in count_and_return_vowels('Welcome to w3resources.com'):
+        print(x)
+    print(split_n_delimiter('w,3,r,e,s,o,u,r,c,e', ',', 1))
+    print(split_n_delimiter('w,3,r,e,s,o,u,r,c,e', ',', 2))
+    print(split_n_delimiter('w,3,r,e,s,o,u,r,c,e', ',', 5))
+    print(first_non_repeating_character('abcdef'))
+    print(first_non_repeating_character('abcabcdef'))
+    print(first_non_repeating_character('aabbcc'))
+    print(all_repeat('xyz', 3))
+    print(all_repeat('xyz', 2))
+    print(all_repeat('abcd', 4))
+    for numb in all_repeat(range(2), 4):
+        print(*numb, sep='')
