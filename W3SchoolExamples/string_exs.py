@@ -1,4 +1,5 @@
 import textwrap
+import collections
 
 
 def length_string(string):
@@ -177,6 +178,53 @@ def zero_fill(number: int, width: int):
     return str(number).zfill(width)
 
 
+def right_marks(number: int, width: int):
+    return str(number).ljust(width, '*')
+
+
+def comma_separate(number: float):
+    return '{:,}'.format(number)
+
+
+def perc(number: float):
+    return '{:.2%}'.format(number)
+
+
+def left_center_right(number: float, width: int):
+    left = str(number).ljust(width)
+    center = str(number).center(width)
+    right = str(number).rjust(width)
+    return left, center, right
+
+
+def count_occurrences(string: str, substring: str):
+    return string.count(substring)
+
+
+def reverse_string(string: str):
+    return string[::-1]
+
+
+def reverse_words(string: str):
+    return ' '.join(reversed(string.split()))
+
+
+def remove_letters(string: str, letters: str):
+    for letter in letters:
+        string = string.replace(letter, '')
+    return string
+    # Another way is
+    # return ''.join(letter for letter in string if letter not in letters)
+
+
+def count_repeated_characters(string: str):
+    count_dict = collections.defaultdict(int)
+    for char in string.replace(' ', ''):
+        count_dict[char] += 1
+    print(count_dict)
+    return {key: count_dict[key] for key in sorted(count_dict, key=count_dict.get, reverse=True) if count_dict[key] > 1}
+
+
 if __name__ == '__main__':
     print('Length of string is', length_string('w3resource.com'))
     print('Char map is: ', chars_count('google.com'))
@@ -232,3 +280,20 @@ if __name__ == '__main__':
     print(two_decimals_sign(3.141592), two_decimals_sign(-12.999999))
     print(no_decimals(3.1415), no_decimals(-12.999999))
     print(zero_fill(20, 10), zero_fill(101, 8))
+    print(right_marks(123, 10))
+    print('{:*<10d}'.format(123))
+    print(comma_separate(30000000.890890))
+    print(perc(0.25), perc(2.34567))
+    print('Left, center and right alignment of number 22, width = 10')
+    print(*left_center_right(22, 10), sep='\n')
+    print('and by formatted placeholders: ')
+    print('{0:<10}\n{0:^10}\n{0:>10}\n'.format(22))
+    print(count_occurrences('Welcome to w3resource.com', 'w3'))
+    print(f'Reverse to "placeholder" is: "{reverse_string("placeholder")}"')
+    print(''.join(reversed("placeholder")))
+    print('The quick brown fox')
+    print(reverse_words('The quick brown fox'))
+    print('The quick brown fox')
+    print(remove_letters('The quick brown fox', 'aeiou'))
+    for key, value in count_repeated_characters('the quick brown fox jumps over the lazy dog').items():
+        print(f'{key}: {value}')
