@@ -358,12 +358,46 @@ def remove_duplicate(string: str):
     return ''.join(collections.OrderedDict.fromkeys(string))
 
 
-def sum_digits_string(string: str):
+def string_digit_sum(string: str):
     s = 0
     for char in string:
         if char.isdigit():
             s += int(char)
     return s
+
+
+def remove_zeros_from_ip(ip_string: str):
+    return '.'.join(str(int(num)) for num in ip_string.strip().split('.'))
+
+
+def max_consequtive_0(bin_string: str):
+    # max_length = 0
+    # m = 0
+    # for digit in bin_string:
+    #     m = m + 1 if digit == '0' else 0
+    #     if max_length < m:
+    #         max_length = m
+    # return max_length
+    return max(len(z) for z in bin_string.strip().split('1'))
+
+
+def common_chars(str1: str, str2: str):
+    # com_ch = []
+    # for char in str1:
+    #     if char in str2:
+    #         com_ch.append(char)
+    # if not com_ch:
+    #     return 'No common characters.'
+    # return ''.join(sorted(com_ch)).strip()
+
+    # another way of implementation
+    d1 = collections.Counter(str1)
+    d2 = collections.Counter(str2)
+    common_dict = d1 & d2
+    if len(common_dict) == 0:
+        return 'No common character.'
+    com_ch = sorted(list(common_dict.elements()))
+    return ''.join(com_ch).strip()
 
 
 if __name__ == '__main__':
@@ -497,5 +531,12 @@ if __name__ == '__main__':
     print(capitalize_first_last_letters("w3resource"))
     print(remove_duplicate("python exercises practice solution"))
     print(remove_duplicate("w3resource"))
-    print(sum_digits_string("123abcd45"))
-    print(sum_digits_string("abcd1234"))
+    print(string_digit_sum("123abcd45"))
+    print(string_digit_sum("abcd1234"))
+    print(remove_zeros_from_ip("255.024.01.01"))
+    print(remove_zeros_from_ip("127.0.00.01 "))
+    print(max_consequtive_0('111000010000110'))
+    print(max_consequtive_0('111000111'))
+    print(common_chars('Python', 'PHP'))
+    print(common_chars('PHP', 'Java'))
+    print(common_chars('No common characters.', 'The quick brown fox jumps over the lazy dog'))
