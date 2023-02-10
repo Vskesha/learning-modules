@@ -370,7 +370,7 @@ def remove_zeros_from_ip(ip_string: str):
     return '.'.join(str(int(num)) for num in ip_string.strip().split('.'))
 
 
-def max_consequtive_0(bin_string: str):
+def max_consecutive_0(bin_string: str):
     # max_length = 0
     # m = 0
     # for digit in bin_string:
@@ -388,7 +388,7 @@ def common_chars(str1: str, str2: str):
     #         com_ch.append(char)
     # if not com_ch:
     #     return 'No common characters.'
-    # return ''.join(sorted(com_ch)).strip()
+    # return ''.join(sorted(dict.fromkeys(com_ch))).strip()
 
     # another way of implementation
     d1 = collections.Counter(str1)
@@ -398,6 +398,107 @@ def common_chars(str1: str, str2: str):
         return 'No common character.'
     com_ch = sorted(list(common_dict.elements()))
     return ''.join(com_ch).strip()
+
+
+def make_map(s):
+    temp_map = {}
+    for char in s:
+        if char not in temp_map:
+            temp_map[char] = 1
+        else:
+            temp_map[char] += 1
+    return temp_map
+
+
+def make_anagram(str1, str2):
+    str1_map1 = make_map(str1)
+    str2_map2 = make_map(str2)
+
+    ctr = 0
+    for key in str2_map2.keys():
+        if key not in str1_map1:
+            ctr += str2_map2[key]
+        else:
+            ctr += max(0, str2_map2[key] - str1_map1[key])
+
+    for key in str1_map1.keys():
+        if key not in str2_map2:
+            ctr += str1_map1[key]
+        else:
+            ctr += max(0, str1_map1[key] - str2_map2[key])
+    return ctr
+
+
+def remove_all_consecutive(string: str):
+    # result = ''
+    # for i, char in enumerate(string):
+    #     if i == 0 or char != string[i-1]:
+    #         result += char
+    # return result
+
+    # another way of implementation
+    result = []
+    for key, group in itertools.groupby(string):
+        result.append(key)
+    return ''.join(result)
+
+
+def generate_strings(string: str):
+    # str1 = ''  # unrepeated chars
+    # str2 = ''  # repeated chars
+    # for i, char in enumerate(string):
+    #     if char in str2:
+    #         continue
+    #     elif char in string[i+1:]:
+    #         str2 += char
+    #     else:
+    #         str1 += char
+    # return str1, str2
+
+    count_chars = collections.Counter(string.casefold().replace(' ', ''))
+    str1 = ''.join(key for key, value in count_chars.items() if value == 1)
+    str2 = ''.join(key for key, value in count_chars.items() if value > 1)
+    return str1, str2
+
+
+def longest_substring(str1: str, str2: str):
+    if len(str1) > len(str2):
+        lstr, sstr = str1, str2
+    else:
+        lstr, sstr = str2, str1
+    longest_substrings = []
+    for length in range(len(sstr), 0, -1):
+        for index in range(len(sstr)-length+1):
+            substring = sstr[index:index+length]
+            if substring in lstr:
+                longest_substrings.append(substring)
+        if longest_substrings:
+            return longest_substrings
+    return longest_substrings
+
+
+def longest_substring2(str1: str, str2: str):
+    la = len(str1)
+    lb = len(str2)
+    equal_table = [[0]*(lb+1) for x in range(la+1)]
+    longest = 0
+    longest_substrings = set()
+    for i in range(la):
+        for j in range(lb):
+            if str1[i] == str2[j]:
+                c = equal_table[i][j] + 1
+                equal_table[i+1][j+1] = c
+                if c > longest:
+                    longest_substrings = set()
+                    longest_substrings.add(str1[i+1-c:i+1])
+                    longest = c
+                elif c == longest:
+                    longest_substrings.add(str1[i + 1 - c:i + 1])
+    return longest_substrings
+
+
+def longest_substring3(str1: str, str2: str):
+    pass
 
 
 if __name__ == '__main__':
@@ -535,8 +636,17 @@ if __name__ == '__main__':
     print(string_digit_sum("abcd1234"))
     print(remove_zeros_from_ip("255.024.01.01"))
     print(remove_zeros_from_ip("127.0.00.01 "))
-    print(max_consequtive_0('111000010000110'))
-    print(max_consequtive_0('111000111'))
+    print(max_consecutive_0('111000010000110'))
+    print(max_consecutive_0('111000111'))
     print(common_chars('Python', 'PHP'))
     print(common_chars('PHP', 'Java'))
     print(common_chars('No common characters.', 'The quick brown fox jumps over the lazy dog'))
+    print(make_anagram('The quick brown fox', 'jumps over the lazy dog'))
+    print(remove_all_consecutive('xxxxxyyyyyy'))
+    print(remove_all_consecutive('xxxxxxxyyyyyyyyyyzzzzzzzzzzzzzyyyyyyyyyyxxxxxxxxxx'))
+    print(*generate_strings('aabbcceffgh'))
+    print(*generate_strings('The quick brown fox jumps over the lazy dog'))
+    print(*longest_substring('abcdefgh', 'xswerabcdwd'))
+    print(*longest_substring('ababc', 'abcdaba'))
+    print(*longest_substring2('abcdefgh', 'xswerabcdwd'))
+    print(*longest_substring2('ababc', 'abcdaba'))
