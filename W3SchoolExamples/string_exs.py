@@ -2,6 +2,7 @@ import textwrap
 import collections
 from string import ascii_lowercase
 import itertools
+import difflib
 
 
 def length_string(string):
@@ -463,14 +464,14 @@ def generate_strings(string: str):
 
 def longest_substring(str1: str, str2: str):
     if len(str1) > len(str2):
-        lstr, sstr = str1, str2
+        longer_string, shorter_string = str1, str2
     else:
-        lstr, sstr = str2, str1
+        longer_string, shorter_string = str2, str1
     longest_substrings = []
-    for length in range(len(sstr), 0, -1):
-        for index in range(len(sstr)-length+1):
-            substring = sstr[index:index+length]
-            if substring in lstr:
+    for length in range(len(shorter_string), 0, -1):
+        for index in range(len(shorter_string)-length+1):
+            substring = shorter_string[index:index+length]
+            if substring in longer_string:
                 longest_substrings.append(substring)
         if longest_substrings:
             return longest_substrings
@@ -498,7 +499,28 @@ def longest_substring2(str1: str, str2: str):
 
 
 def longest_substring3(str1: str, str2: str):
-    pass
+    matcher = difflib.SequenceMatcher(a=str1, b=str2)
+    matching_blocks = matcher.get_matching_blocks()
+    longest_substrings = set()
+    longest = 0
+    for a, b, size in matching_blocks:
+        if size > longest:
+            longest_substrings = set()
+            longest_substrings.add(str1[a:a+size])
+            longest = size
+        elif size == longest:
+            longest_substrings.add(str1[a:a+size])
+    return longest_substrings
+
+
+def uncommon_chars_concat(str1: str, str2: str):
+    str1 = ''.join(dict.fromkeys(str1))
+    str2 = ''.join(dict.fromkeys(str2))
+    for char in str1:
+        if char in str2:
+            str1 = str1.replace(char, '')
+            str2 = str2.replace(char, '')
+    return str1 + str2
 
 
 if __name__ == '__main__':
@@ -650,3 +672,6 @@ if __name__ == '__main__':
     print(*longest_substring('ababc', 'abcdaba'))
     print(*longest_substring2('abcdefgh', 'xswerabcdwd'))
     print(*longest_substring2('ababc', 'abcdaba'))
+    print(*longest_substring3('abcdefgh', 'xswerabcdwd'))
+    print(*longest_substring3('ababc', 'abcdaba'))
+    print(uncommon_chars_concat('abcdpqr', 'xyzabcd'))
