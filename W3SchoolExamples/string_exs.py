@@ -523,6 +523,18 @@ def uncommon_chars_concat(str1: str, str2: str):
     return str1 + str2
 
 
+def move_spaces(string: str):
+    return string.replace(' ', '').rjust(len(string))
+
+
+def remove_characters(text: str, except_chars: str):
+    res = ''
+    for ch in text:
+        if ch in except_chars:
+            res += ch
+    return res
+
+
 if __name__ == '__main__':
     print('Length of string is', length_string('w3resource.com'))
     print('Char map is: ', chars_count('google.com'))
@@ -675,3 +687,25 @@ if __name__ == '__main__':
     print(*longest_substring3('abcdefgh', 'xswerabcdwd'))
     print(*longest_substring3('ababc', 'abcdaba'))
     print(uncommon_chars_concat('abcdpqr', 'xyzabcd'))
+    s1 = "Python Exercises"
+    print("Original String:\n", s1)
+    print("\nAfter moving all spaces to the front:")
+    print(move_spaces(s1))
+    text = "Python Exercises"
+    print("Original string")
+    print(text)
+    except_char = "P"
+    print("Remove all characters except", except_char, "in the said string:")
+    print(remove_characters(text, except_char))
+    text = "google"
+    print("\nOriginal string")
+    print(text)
+    except_char = "g"
+    print("Remove all characters except", except_char, "in the said string:")
+    print(remove_characters(text, except_char))
+    text = "exercises"
+    print("\nOriginal string")
+    print(text)
+    except_char = "e"
+    print("Remove all characters except", except_char, "in the said string:")
+    print(remove_characters(text, except_char))
