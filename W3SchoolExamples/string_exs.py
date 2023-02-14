@@ -527,12 +527,67 @@ def move_spaces(string: str):
     return string.replace(' ', '').rjust(len(string))
 
 
-def remove_characters(text: str, except_chars: str):
-    res = ''
-    for ch in text:
-        if ch in except_chars:
-            res += ch
-    return res
+def remove_characters(text1: str, except_chars: str):
+    return ''.join(ch for ch in text1 if ch in except_chars)
+
+
+def count_chars(string: str):
+    u, l, n, s = 0, 0, 0, 0
+    for ch in string:
+        if ch.isupper(): u += 1
+        elif ch.islower(): l += 1
+        elif ch.isnumeric(): n += 1
+        else: s += 1
+    return u, l, n, s
+
+
+def contains_all(str1: str, cont_chars: str):
+    for char in cont_chars:
+        if str1.count(char) < cont_chars.count(char):
+            return False
+    return True
+
+
+def min_window(string: str, must_contain_chars: str, ignore_case=False):
+    if ignore_case:
+        string = string.casefold()
+        must_contain_chars = must_contain_chars.casefold()
+    min_windows = set()
+    for substr_len in range(1, len(string)+1):
+        for start_pos in range(len(string)-substr_len+1):
+            substring = string[start_pos:(start_pos+substr_len)]
+            if contains_all(substring, must_contain_chars):
+                min_windows.add(substring)
+        if min_windows:
+            break
+    return min_windows
+
+
+def min_window2(string: str, must_contain_chars: str, ignore_case=False):
+    if ignore_case:
+        string = string.lower()
+        must_contain_chars = must_contain_chars.lower()
+
+    min_windows = []
+    count_ch = collections.Counter(must_contain_chars)
+    chars_left = len(must_contain_chars)
+    i = 0
+    for j, ch in enumerate(string, 1):
+        chars_left -= count_ch[ch] > 0
+        count_ch[ch] -= 1
+        if not chars_left:
+            while i < j and count_ch[string[i]] < 0:
+                count_ch[string[i]] += 1
+                i += 1
+            try:
+                length = len(min_windows[0])
+                if j - i == length:
+                    min_windows.append(string[i:j])
+                elif j - i < length:
+                    min_windows = [string[i:j]]
+            except IndexError:
+                min_windows.append(string[i:j])
+    return min_windows
 
 
 if __name__ == '__main__':
@@ -706,6 +761,19 @@ if __name__ == '__main__':
     text = "exercises"
     print("\nOriginal string")
     print(text)
-    except_char = "e"
+    except_char = "exc"
     print("Remove all characters except", except_char, "in the said string:")
     print(remove_characters(text, except_char))
+    str = "@W3Resource.Com"
+    print("Original Substrings:", str)
+    u, l, n, s = count_chars(str)
+    print('\nUpper case characters: ', u)
+    print('Lower case characters: ', l)
+    print('Number case: ', n)
+    print('Special case characters: ', s)
+    str1 = "PRWSOERIUSFKDO"
+    str2 = "OSU"
+    print("Original Strings:\n", str1, "\n", str2)
+    print("Minimum windows:")
+    print(*min_window(str1, str2))
+    print(*min_window2(str1, str2))
