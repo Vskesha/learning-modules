@@ -637,6 +637,20 @@ def find_sub_string3(string: str) -> list:
     return min_substrings
 
 
+def count_k_dist(string: str, k: int) -> int:
+    result = 0
+    for start in range(len(string)-k+1):
+        for end in range(start+k, len(string)+1):
+            dist_chars = len(set(string[start:end]))
+            print(f'start = {start}, end = {end}, dist_chars = {dist_chars}, substring is "{string[start:end]}"')
+            if dist_chars == k:
+                result += 1
+                print('Add to result')
+            if dist_chars > k:
+                break
+    return result
+
+
 if __name__ == '__main__':
     print('Length of string is', length_string('w3resource.com'))
     print('Char map is: ', chars_count('google.com'))
@@ -830,3 +844,8 @@ if __name__ == '__main__':
     print('Method 1:', *find_sub_string(str1))
     print('Method 2:', *find_sub_string2(str1))
     print('Method 3:', *find_sub_string3(str1))
+    print()
+    str1 = "vasyavskesha"
+    k = 4
+    print("Number of substrings with exactly", k, "distinct characters : ")
+    print(count_k_dist(str1, k))
