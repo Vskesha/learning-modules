@@ -534,10 +534,14 @@ def remove_characters(text1: str, except_chars: str):
 def count_chars(string: str):
     u, l, n, s = 0, 0, 0, 0
     for ch in string:
-        if ch.isupper(): u += 1
-        elif ch.islower(): l += 1
-        elif ch.isnumeric(): n += 1
-        else: s += 1
+        if ch.isupper():
+            u += 1
+        elif ch.islower():
+            l += 1
+        elif ch.isnumeric():
+            n += 1
+        else:
+            s += 1
     return u, l, n, s
 
 
@@ -588,6 +592,49 @@ def min_window2(string: str, must_contain_chars: str, ignore_case=False):
             except IndexError:
                 min_windows.append(string[i:j])
     return min_windows
+
+
+def find_sub_string(str1: str) -> list:
+    all_chars = ''.join(set(str1))
+    return min_window2(str1, all_chars, True)
+
+
+def find_sub_string2(string: str) -> list:
+    window_dict = {}
+    different_chars_left = len(set(string))
+    start = 0
+    min_substrings = []
+    for end, char in enumerate(string, 1):
+        if char in window_dict:
+            window_dict[char] += 1
+        else:
+            window_dict[char] = 1
+            different_chars_left -= 1
+        if different_chars_left == 0:
+            while window_dict[string[start]] > 1:
+                window_dict[string[start]] -= 1
+                start += 1
+            if not min_substrings or len(min_substrings[0]) > end - start:
+                min_substrings = [string[start:end]]
+            elif len(min_substrings[0]) == end - start:
+                min_substrings.append(string[start:end])
+    return min_substrings
+
+
+def find_sub_string3(string: str) -> list:
+    min_substrings = []
+    am_dif_let = len(set(string))
+    start = 0
+    for end in range(am_dif_let, len(string)+1):
+        if len(set(string[start:end])) < am_dif_let:
+            continue
+        while len(set(string[start+1:end])) == am_dif_let:
+            start += 1
+        if not min_substrings or len(min_substrings[0]) == end - start:
+            min_substrings.append(string[start:end])
+        elif len(min_substrings[0]) > end - start:
+            min_substrings = [string[start:end]]
+    return min_substrings
 
 
 if __name__ == '__main__':
@@ -777,3 +824,9 @@ if __name__ == '__main__':
     print("Minimum windows:")
     print(*min_window(str1, str2))
     print(*min_window2(str1, str2))
+    str1 = "asdaewsqgtwwsa"
+    print("Original Strings:\n", str1)
+    print("\nSmallest window that contains all characters of the said string:")
+    print('Method 1:', *find_sub_string(str1))
+    print('Method 2:', *find_sub_string2(str1))
+    print('Method 3:', *find_sub_string3(str1))
