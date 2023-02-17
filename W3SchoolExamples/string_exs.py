@@ -651,6 +651,16 @@ def count_k_dist(string: str, k: int) -> int:
     return result
 
 
+def number_of_substrings(string: str) -> int:
+    """
+    calculates amount of non-empty substrings of a given string
+    :param string:
+    :return: int amount of substrings
+    """
+    length = len(string)
+    return length * (length + 1) // 2
+
+
 if __name__ == '__main__':
     print('Length of string is', length_string('w3resource.com'))
     print('Char map is: ', chars_count('google.com'))
@@ -849,3 +859,5 @@ if __name__ == '__main__':
     k = 4
     print("Number of substrings with exactly", k, "distinct characters : ")
     print(count_k_dist(str1, k))
+    print("Number of substrings:")
+    print(number_of_substrings('w3resource'))
