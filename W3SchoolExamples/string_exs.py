@@ -3,6 +3,7 @@ import collections
 from string import ascii_lowercase
 import itertools
 import difflib
+import time
 
 
 def length_string(string):
@@ -661,6 +662,73 @@ def number_of_substrings(string: str) -> int:
     return length * (length + 1) // 2
 
 
+def count_char_position(string: str) -> int:
+    """
+    calculates how many characters are in the same position as in alphabet
+    :param string:
+    :return:
+    """
+    count = 0
+    alpabet = 'abcdefghijklmnopqrstuvwxyz'
+    for i in range(len(string)):
+        if string[i].lower() == alpabet[i]:
+            count += 1
+    return count
+
+
+def smallest_largest_words(str1: str) -> tuple:
+    """
+    returns tuple of smallest and largest words in given "str1". If there are more than one word
+    with the same lengths then returns the first one from left.
+    :param str1:
+    :return: tuple (smallest, largest)
+    """
+    words = str1.split()
+    smallest = words[0]
+    largest = words[0]
+    smallest_len = len(smallest)
+    largest_len = len(largest)
+    for word in words:
+        cur_len = len(word)
+        if largest_len < cur_len:
+            largest_len = cur_len
+            largest = word
+        if smallest_len > cur_len:
+            smallest_len = cur_len
+            smallest = word
+    return smallest, largest
+
+
+def smallest_largest_words2(str1: str) -> tuple:
+    """
+    returns tuple of smallest and largest words in given "str1". If there are more than one word
+    with the same lengths then returns the first one from left.
+    :param str1:
+    :return: tuple (smallest, largest)
+    """
+    words = str1.split()
+    smallest = words[0]
+    largest = words[0]
+    for word in words:
+        if len(largest) < len(word):
+            largest = word
+        if len(smallest) > len(word):
+            smallest = word
+    return smallest, largest
+
+
+def smallest_largest_words3(str1: str) -> tuple:
+    """
+    returns tuple of smallest and largest words in given "str1". If there are more than one word
+    with the same lengths then returns the first one from left.
+    :param str1:
+    :return: tuple (smallest, largest)
+    """
+    words = sorted(str1.split(), key=lambda word: len(word))
+    # print(words)
+    return words[0], words[-1]
+
+
 if __name__ == '__main__':
     print('Length of string is', length_string('w3resource.com'))
     print('Char map is: ', chars_count('google.com'))
@@ -861,3 +929,14 @@ if __name__ == '__main__':
     print(count_k_dist(str1, k))
     print("Number of substrings:")
     print(number_of_substrings('w3resource'))
+    print("Number of characters of the said string at same position as in English alphabet:")
+    print(count_char_position('xbcefgg'))
+    print()
+    str1 = "Write a Java program to sort an array of given integers using Quicksort Algorithm " * 1000
+    funcs = [smallest_largest_words, smallest_largest_words2, smallest_largest_words3]
+    for func in funcs:
+        print(f'Testing function is: "{func.__name__}"')
+        start = time.perf_counter()
+        sm, la = func(str1)
+        stop = time.perf_counter()
+        print(f'Smaller: "{sm}", largest: "{la}", time = {stop-start:.3f} seconds\n')
