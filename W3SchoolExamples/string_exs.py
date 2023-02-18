@@ -729,6 +729,33 @@ def smallest_largest_words3(str1: str) -> tuple:
     return words[0], words[-1]
 
 
+def no_of_substring_with_equal_ends(string: str) -> int:
+    """
+    counts the number of substrings with the same first and last character and returns it
+    :param string:
+    :return:
+    """
+    count = 0
+    length = len(string)
+    for start in range(length):
+        for end in range(start, length):
+            if string[start] == string[end]:
+                count += 1
+    return count
+
+
+def find_index(string: str, substr: str):
+    """
+    searches if substring is in given string.
+    :param string:
+    :param substr:
+    :return: index of a given string at which a certain substring starts. If not found returns "Not found"
+    """
+    if len(substr) < len(string) and substr in string:
+        return string.index(substr)
+    return 'Not found'
+
+
 if __name__ == '__main__':
     print('Length of string is', length_string('w3resource.com'))
     print('Char map is: ', chars_count('google.com'))
@@ -940,3 +967,8 @@ if __name__ == '__main__':
         sm, la = func(str1)
         stop = time.perf_counter()
         print(f'Smaller: "{sm}", largest: "{la}", time = {stop-start:.3f} seconds\n')
+    print(no_of_substring_with_equal_ends('abc'))
+    print(no_of_substring_with_equal_ends('abcc'))
+    print(find_index("Python Exercises", "Ex"))
+    print(find_index("Python Exercises", "yt"))
+    print(find_index("Python Exercises", "PY"))
