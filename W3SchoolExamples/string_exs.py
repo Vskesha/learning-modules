@@ -756,6 +756,28 @@ def find_index(string: str, substr: str):
     return 'Not found'
 
 
+def width_wrap(string: str, wd: int) -> str:
+    return textwrap.fill(text=string, width=wd)
+
+
+def print_dec_bin_oct_hex(n: int) -> None:
+    print(f'Given n is: {n}')
+    print('Decimal   Binary    Octal     Hexadecimal')
+    print('{0:^10d}{0:^10b}{0:^10o}{0:^10x}'.format(n))
+    print('{0:<10d}{0:<10b}{0:<10o}{0:<10X}'.format(n))
+    print(f'{n:d}'.center(10), f'{n:b}'.center(10), f'{n:o}'.center(10), f'{n:x}'.center(10), sep='')
+    print(f'{n:d}'.ljust(10), f'{n:b}'.ljust(10), f'{n:o}'.ljust(10), f'{n:X}'.ljust(10), sep='')
+    print(f'{n:d}\t{n:b}\t{n:o}\t{n:x}'.expandtabs(10))
+
+
+def swap_case_string(string: str) -> str:
+    # return string.swapcase()
+    sw_str = ''
+    for ch in string:
+        sw_str += ch.lower() if ch.isupper() else ch.upper()
+    return sw_str
+
+
 if __name__ == '__main__':
     print('Length of string is', length_string('w3resource.com'))
     print('Char map is: ', chars_count('google.com'))
@@ -972,3 +994,8 @@ if __name__ == '__main__':
     print(find_index("Python Exercises", "Ex"))
     print(find_index("Python Exercises", "yt"))
     print(find_index("Python Exercises", "PY"))
+    print(width_wrap('The quick brown fox.', 10))
+    print_dec_bin_oct_hex(31)
+    print(swap_case_string("Python Exercises"))
+    print(swap_case_string("Java"))
+    print(swap_case_string("NumPy"))
