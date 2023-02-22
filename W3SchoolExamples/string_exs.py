@@ -4,6 +4,7 @@ from string import ascii_lowercase
 import itertools
 import difflib
 import time
+import difflib
 
 
 def length_string(string):
@@ -778,6 +779,59 @@ def swap_case_string(string: str) -> str:
     return sw_str
 
 
+def bytearray_to_hexadecimal(list_val):
+    return ''.join('{:02x}'.format(x) for x in list_val)
+
+
+def delete_all_occurrences(string: str, sp_chars: str) -> str:
+    for char in sp_chars:
+        string = string.replace(char, '')
+    return string
+
+
+def intersection_of_two_string(str1, str2):
+    return ''.join(dict.fromkeys(x for x in str1 if x in str2).keys())
+
+
+def check_string(string: str) -> str:
+    msg = ''
+    if not any(x.isupper() for x in string):
+        msg += 'String must have at least 1 upper case character.\n'
+    if not any(x.islower() for x in string):
+        msg += 'String must have at least 1 lower case character.\n'
+    if not any(x.isnumeric() for x in string):
+        msg += 'String must have at least 1 digit.\n'
+    if len(string) < 8:
+        msg += 'String length must be more or equal 8.\n'
+    if not msg:
+        msg += 'Valid string.\n'
+    return msg
+
+
+def remove_chars(str1, unwanted_chars):
+    for char in unwanted_chars:
+        str1 = str1.replace(char, '')
+    return str1
+
+
+def unique_list(text_str: str) -> str:
+    return ' '.join(dict.fromkeys(word for word in text_str.split()).keys())
+
+
+def heterogeneous_list_to_str(h_data):
+    return ''.join(str(x) for x in h_data)
+
+
+def string_similarity(str1: str, str2: str) -> float:
+    return difflib.SequenceMatcher(a=str1.lower(), b=str2.lower()).ratio()
+
+
+def extract_numbers(str1: str) -> list:
+    str2 = ''.join(x if x.isdigit() else ' ' for x in str1)
+    print(str2)
+    return [int(x) for x in str2.split()]
+
+
 if __name__ == '__main__':
     print('Length of string is', length_string('w3resource.com'))
     print('Char map is: ', chars_count('google.com'))
@@ -826,7 +880,7 @@ if __name__ == '__main__':
     as C++ or Java.
     '''
     print(format_width(sample_text, width=50))
-    print(textwrap.fill(text_without_indentations(sample_text), width=60, 
+    print(textwrap.fill(text_without_indentations(sample_text), width=60,
                         drop_whitespace=True, replace_whitespace=True))
     print(add_prefix_each_line(text_without_indentations(sample_text), '>'))
     print(first_line_indent(sample_text, '|||||'))
@@ -952,9 +1006,9 @@ if __name__ == '__main__':
     except_char = "exc"
     print("Remove all characters except", except_char, "in the said string:")
     print(remove_characters(text, except_char))
-    str = "@W3Resource.Com"
-    print("Original Substrings:", str)
-    u, l, n, s = count_chars(str)
+    str2 = "@W3Resource.Com"
+    print("Original Substrings:", str2)
+    u, l, n, s = count_chars(str2)
     print('\nUpper case characters: ', u)
     print('Lower case characters: ', l)
     print('Number case: ', n)
@@ -999,3 +1053,84 @@ if __name__ == '__main__':
     print(swap_case_string("Python Exercises"))
     print(swap_case_string("Java"))
     print(swap_case_string("NumPy"))
+    list_val = [111, 12, 45, 67, 109]
+    print("Original Bytearray :")
+    print(list_val)
+    print("\nHexadecimal string:")
+    print(bytearray_to_hexadecimal(list_val))
+    str_text = "Delete all occurrences of a specified character in a given string"
+    print("Original string:")
+    print(str_text)
+    print("\nModified string:")
+    ch = 'abcle'
+    print(delete_all_occurrences(str_text, ch))
+    str1 = 'Python3'
+    str2 = 'Python2.7'
+    print("Original strings:")
+    print(str1)
+    print(str2)
+    print("\nIntersection of two said String:")
+    print(intersection_of_two_string(str1, str2))
+    print(check_string('W3resource'))
+    print(check_string('w3resource'))
+    print(check_string('W3RESOURCE'))
+    print(check_string('W3res'))
+    print(check_string(',..,'))
+    str1 = "Pyth*^on Exercis^es"
+    str2 = "A%^!B#*CD"
+    unwanted_chars = ["#", "*", "!", "^", "%"]
+    print("Original String : " + str1)
+    print("After removing unwanted characters:")
+    print(remove_chars(str1, unwanted_chars))
+    print("\nOriginal String : " + str2)
+    print("After removing unwanted characters:")
+    print(remove_chars(str2, unwanted_chars))
+    text_str = "Python Exercises Practice Solution Exercises"
+    print("Original String:")
+    print(text_str)
+    print("\nAfter removing duplicate words from the said string:")
+    print(unique_list(text_str))
+    h_data = ["Red", 100, -50, "green", "w,3,r", 12.12, False]
+    print("Original list:")
+    print(h_data)
+    print("\nConvert the heterogeneous list of scalars into a string:")
+    print(heterogeneous_list_to_str(h_data))
+    str1 = 'Python Exercises'
+    str2 = 'Python Exercises'
+    print("Original string:")
+    print(str1)
+    print(str2)
+    print("Similarity between two said strings:")
+    print(string_similarity(str1, str2))
+    str1 = 'Python Exercises'
+    str2 = 'Python Exercise'
+    print("\nOriginal string:")
+    print(str1)
+    print(str2)
+    print("Similarity between two said strings:")
+    print(string_similarity(str1, str2))
+    str1 = 'Python Exercises'
+    str2 = 'Python Ex.'
+    print("\nOriginal string:")
+    print(str1)
+    print(str2)
+    print("Similarity between two said strings:")
+    print(string_similarity(str1, str2))
+    str1 = 'Python Exercises'
+    str2 = 'Python'
+    print("\nOriginal string:")
+    print(str1)
+    print(str2)
+    print("Similarity between two said strings:")
+    print(string_similarity(str1, str2))
+    str1 = 'Python Exercises'
+    str1 = 'Java Exercises'
+    print("\nOriginal string:")
+    print(str1)
+    print(str2)
+    print("Similarity between two said strings:")
+    print(string_similarity(str1, str2))
+    str1 = "red 12 black 45 green"
+    print("Original string:", str1)
+    print("Extract numbers from the said string:")
+    print(extract_numbers(str1))
