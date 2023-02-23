@@ -828,7 +828,7 @@ def string_similarity(str1: str, str2: str) -> float:
 
 def extract_numbers(str1: str) -> list:
     str2 = ''.join(x if x.isdigit() else ' ' for x in str1)
-    print(str2)
+    # print(str2)
     return [int(x) for x in str2.split()]
 
 
