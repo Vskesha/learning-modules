@@ -1,3 +1,4 @@
+import re
 import textwrap
 import collections
 from string import ascii_lowercase
@@ -832,6 +833,35 @@ def extract_numbers(str1: str) -> list:
     return [int(x) for x in str2.split()]
 
 
+class Truth:
+    pass
+
+
+def hex_to_rgb(hex: str) -> tuple:
+    return tuple(int(hex[i:i+2], 16) for i in range(0, 6, 2))
+
+
+def rgb_to_hex(r, g, b) -> str:
+    return ('{:02X}'*3).format(r, g, b)
+
+
+def camel_case(s: str) -> str:
+    s = re.sub(r'_|-', ' ', s).title().replace(' ', '')
+    return s[0].lower() + s[1:]
+
+
+def snake_case(s):
+  return '_'.join(re.sub('([A-Z][a-z]+)', r' \1', re.sub('([A-Z]+)', r' \1', s.replace('-', ' '))).split()).lower()
+
+
+def decapitalize_first_letter(string: str, upper_rest=False) -> str:
+    return ''.join([string[0].lower(), string[1:].upper() if upper_rest else string[1:]])
+
+
+def split_lines(string: str) -> list:
+    return string.split('\n')
+
+
 if __name__ == '__main__':
     print('Length of string is', length_string('w3resource.com'))
     print('Char map is: ', chars_count('google.com'))
@@ -1134,3 +1164,40 @@ if __name__ == '__main__':
     print("Original string:", str1)
     print("Extract numbers from the said string:")
     print(extract_numbers(str1))
+    x = Truth()
+    print(bool(x))
+    f_names = ['Robbi', 'Stefani', 'Fidela', ]
+    l_names = ['Haugh', 'Carmack', 'Trepanier', ]
+    for f_name, l_name in zip(f_names, l_names):
+        print('full name is %s %s' % (f_name, l_name))
+    print(hex_to_rgb('FFA501'))
+    print(hex_to_rgb('FFFFFF'))
+    print(hex_to_rgb('000000'))
+    print(hex_to_rgb('FF0000'))
+    print(hex_to_rgb('000080'))
+    print(hex_to_rgb('C0C0C0'))
+    print(rgb_to_hex(255, 165, 1))
+    print(rgb_to_hex(255, 255, 255))
+    print(rgb_to_hex(0, 0, 0))
+    print(rgb_to_hex(0, 0, 128))
+    print(rgb_to_hex(192, 192, 192))
+    print(camel_case('JavaScript'))
+    print(camel_case('Foo-Bar'))
+    print(camel_case('foo_bar'))
+    print(camel_case('--foo.bar'))
+    print(camel_case('Foo-BAR'))
+    print(camel_case('fooBAR'))
+    print(camel_case('foo bar'))
+    print(snake_case('JavaScript'))
+    print(snake_case('Foo-Bar'))
+    print(snake_case('foo_bar'))
+    print(snake_case('--foo.bar'))
+    print(snake_case('Foo-BAR'))
+    print(snake_case('fooBAR'))
+    print(snake_case('foo bar'))
+    print(decapitalize_first_letter('Java Script'))
+    print(decapitalize_first_letter('Python', upper_rest=True))
+    print("Original string:")
+    print("This\nis a\nmultiline\nstring.\n")
+    print("Split the said multiline string into a list of lines:")
+    print(split_lines('This\nis a\nmultiline\nstring.\n'))
