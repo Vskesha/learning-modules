@@ -3,9 +3,9 @@ import textwrap
 import collections
 from string import ascii_lowercase
 import itertools
-import difflib
 import time
 import difflib
+import string
 
 
 def length_string(string):
@@ -859,7 +859,86 @@ def decapitalize_first_letter(string: str, upper_rest=False) -> str:
 
 
 def split_lines(string: str) -> list:
-    return string.split('\n')
+    # return string.split('\n')
+    # or
+    return string.splitlines()
+
+
+def duplicate_letters(text: str) -> bool:
+    words = text.split()
+    for word in words:
+        if len(word) > len(set(word)):
+            return True
+    return False
+
+
+def add_two_strints(n1: str, n2: str) -> str:
+    n1 = '0' + n1
+    n2 = '0' + n2
+    return str(int(n1) + int(n2)) if n1.isnumeric() and n2.isnumeric() else 'Error in input'
+
+
+def remove_punctuations(text: str) -> str:
+    res = ''
+    for ch in text:
+        if ch.isalnum() or ch == ' ':
+            res += ch
+    return res
+
+
+def replace_words_five_letters(text: str) -> str:
+    return ' '.join('#' * len(word) if len(word) > 4 else word for word in text.split(' '))
+
+
+def capitalize_each_words(strs: str) -> str:
+    return string.capwords(strs)
+
+
+def extract_name_email(email: str) -> str:
+    return ''.join(c for c in email[:email.find('@')] if c.isalpha())
+
+
+def delete_duplicates(st: str) -> str:
+    return ''.join(st[i] for i in range(len(st)) if i == 0 or st[i] != st[i-1])
+
+
+def same_three_letters(st1: str, st2: str) -> int:
+    n = len(min(st1, st2, key=len))
+    res = 0
+    for i in range(n-2):
+        if st1[i:i+3] == st2[i:i+3]:
+            res += 1
+    return res
+
+
+def surround_not_wovels(st: str) -> str:
+    return ''.join(c if c.lower() in 'aeyuio' else f'-{c}-' for c in st)
+
+
+def count_leap_years(years: str) -> int:
+    res = 0
+    ys = [int(y) for y in years.split('-')]
+    while ys[0] % 4:
+        ys[0] += 1
+    for ye in range(ys[0], ys[1]+1, 4):
+        print(ye)
+        if ye % 100 == 0 and ye % 400 != 0:
+            print('not leap year')
+            continue
+        res += 1
+    return res
+
+
+def space_before_capital(st: str) -> str:
+    return ''.join(' ' + c if c.isupper() else c for c in st).strip()
+
+
+def number_of_characters(st: str) -> str:
+    return ' '.join(str(ord(c)-64) for c in st.upper() if c.isalpha())
+
+
+def sort_words(st: str) -> str:
+    return ' '.join(sorted(st.split()))
 
 
 if __name__ == '__main__':
@@ -1201,3 +1280,169 @@ if __name__ == '__main__':
     print("This\nis a\nmultiline\nstring.\n")
     print("Split the said multiline string into a list of lines:")
     print(split_lines('This\nis a\nmultiline\nstring.\n'))
+    text = "Filter out the factorials of the said list."
+    print("Original text:")
+    print(text)
+    print("Check whether any word in the said sting contains duplicate characrters or not!")
+    print(duplicate_letters(text))
+    text = "Python Exercise."
+    print("\nOriginal text:")
+    print(text)
+    print("Check whether any word in the said sting contains duplicate characrters or not!")
+    print(duplicate_letters(text))
+    text = "The wait is over."
+    print("\nOriginal text:")
+    print(text)
+    print("Check whether any word in the said sting contains duplicate characrters or not!")
+    print(duplicate_letters(text))
+    print(add_two_strints("10", "32"))
+    print(add_two_strints("10", "22.6"))
+    print(add_two_strints("100", "-200"))
+    text = "String! With. Punctuation?"
+    print("Original text:")
+    print(text)
+    result = remove_punctuations(text)
+    print("After removing Punctuations from the said string:")
+    print(result)
+    print(f'{-10.56:v>+#10,.03f}')
+    print(f'{-10.56:v=+#10,.03f}')
+    print(f'{-10457.56:v>+#20,.03f}')
+    print(f'{10457:v= #20x}')
+    print(f'{10457:v= 20x}')
+    print(f'{103705457:> 20_x}')
+    print(f'{65:x>20c}')
+    text = "Count the lowercase letters in the said list of words:"
+    print("Original string:", text)
+    print("Replace words (length five or more) with hash characters in the said string:")
+    print(replace_words_five_letters(text))
+    text = "Python - Remove punctuations from a string:"
+    print("\nOriginal string:", text)
+    print("Replace words (length five or more) with hash characters in the said string:")
+    print(replace_words_five_letters(text))
+    text = "Red Green WHITE"
+    print("Original string:", text)
+    print("Capitalize the first letter and lowercases the rest:")
+    print(capitalize_each_words(text))
+    text = "w3resource"
+    print("\nOriginal string:", text)
+    print("Capitalize the first letter and lowercases the rest:")
+    print(capitalize_each_words(text))
+    text = "dow jones industrial average"
+    print("\nOriginal string:", text)
+    print("Capitalize the first letter and lowercases the rest:")
+    print(capitalize_each_words(text))
+    email_address = "john@example.com"
+    print("Original Email:", email_address)
+    print("Extract the name from the said Email address:")
+    print(extract_name_email(email_address))
+    email_address = "john.smith@example.com"
+    print("\nOriginal Email:", email_address)
+    print("Extract the name from the said Email address:")
+    print(extract_name_email(email_address))
+    email_address = "disposable.style.email.with+symbol@example.com@example.com"
+    print("\nOriginal Email:", email_address)
+    print("Extract the name from the said Email address:")
+    print(extract_name_email(email_address))
+    email_address = "fully-qualified-domain@example.com"
+    print("\nOriginal Email:", email_address)
+    print("Extract the name from the said Email address:")
+    print(extract_name_email(email_address))
+    text = "Red Green White"
+    print("Original string:", text)
+    print("Remove repeated consecutive characters and replace with the single letters:")
+    print(delete_duplicates(text))
+    text = "aabbbcdeffff"
+    print("\nOriginal string:", text)
+    print("Remove repeated consecutive characters and replace with the single letters:")
+    print(delete_duplicates(text))
+    text = "Yellowwooddoor"
+    print("\nOriginal string:", text)
+    print("Remove repeated consecutive characters and replace with the single letters:")
+    print(delete_duplicates(text))
+    text1 = "Red"
+    text2 = "RedGreen"
+    print("Original strings:", text1, text2)
+    print("Check said two strings contain three letters at the same index:")
+    print(same_three_letters(text1, text2))
+    text1 = "Red White"
+    text2 = "Red White"
+    print("Original strings:", text1, text2)
+    print("Check said two strings contain three letters at the same index:")
+    print(same_three_letters(text1, text2))
+    text1 = "Red White"
+    text2 = "White Red"
+    print("Original strings:", text1, text2)
+    print("Check said two strings contain three letters at the same index:")
+    print(same_three_letters(text1, text2))
+    text = "Green"
+    print("Original string:", text)
+    print("Insert Hash elements on both side of each element, which are not vowels:")
+    print(surround_not_wovels(text))
+    text = "White"
+    print("\nOriginal string:", text)
+    print("Insert Hash elements on both side of each element, which are not vowels:")
+    print(surround_not_wovels(text))
+    text = "aeiou"
+    print("\nOriginal string:", text)
+    print("Insert Hash elements on both side of each element, which are not vowels:")
+    print(surround_not_wovels(text))
+    text = "Green"
+    print("Original string:", text)
+    print("Insert Hash elements on both side of each element, which are not vowels:")
+    print(surround_not_wovels(text))
+    text = "White"
+    print("\nOriginal string:", text)
+    print("Insert Hash elements on both side of each element, which are not vowels:")
+    print(surround_not_wovels(text))
+    text = "aeiou"
+    print("\nOriginal string:", text)
+    print("Insert Hash elements on both side of each element, which are not vowels:")
+    print(surround_not_wovels(text))
+    text = "1981-1991"
+    print("Range of years:", text)
+    print("Count  the number of leap years within the said range:")
+    print(count_leap_years(text))
+    text = "2000-2020"
+    print("Range of years:", text)
+    print("Count  the number of leap years within the said range:")
+    print(count_leap_years(text))
+    text = "1823-2020"
+    print("Range of years:", text)
+    print("Count  the number of leap years within the said range:")
+    print(count_leap_years(text))
+    word = "PythonExercises"
+    print("Original Word:", word)
+    print("Insert space before capital letters in the said word:")
+    print(space_before_capital(word))
+    word = "Python"
+    print("Original Word:", word)
+    print("Insert space before capital letters in the said word:")
+    print(space_before_capital(word))
+    word = "PythonExercisesPracticeSolution"
+    print("Original Word:", word)
+    print("Insert space before capital letters in the said word:")
+    print(space_before_capital(word))
+    word = "Python"
+    print("Original Word:", word)
+    print("Alphabet position in the said string:")
+    print(number_of_characters(word))
+    word = "Java"
+    print("\nOriginal Word:", word)
+    print("Alphabet position in the said string:")
+    print(number_of_characters(word))
+    word = "Python Tutorial"
+    print("\nOriginal Word:", word)
+    print("Alphabet position in the said string:")
+    print(number_of_characters(word))
+    word = "Red Green Black White Pink"
+    print("Original Word:", word)
+    print("Sort the said string based on its first character:")
+    print(sort_words(word))
+    word = "Calculate the sum of two said numbers given as strings."
+    print("\nOriginal Word:", word)
+    print("Sort the said string based on its first character:")
+    print(sort_words(word))
+    word = "The quick brown fox jumps over the lazy dog."
+    print("\nOriginal Word:", word)
+    print("Sort the said string based on its first character:")
+    print(sort_words(word))
