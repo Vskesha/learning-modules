@@ -1,5 +1,12 @@
+import time
+
+
 def assert_equals(a, b):
     print(a == b)
+
+
+def testtime():
+    pass
 
 
 if __name__ == '__main__':
