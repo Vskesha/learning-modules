@@ -33,6 +33,33 @@ def find_abbreviations(s: str) -> list[str]:
     return re.findall(r'[A-ZА-ЯЁ]{2,}(?: +[A-ZА-ЯЁ]{2,})*', s)
 
 
+def repl_fun(match_obj):
+    return f'>Censored({len(match_obj[0])})<'
+
+
+def to_cube(match_obj):
+    return str(int(match_obj[0]) ** 3)
+
+
+def make_abbreviation(text: str) -> str:
+    return ''.join(c.upper() for c in re.findall(r'\b\w', text))
+
+
+def is_haiku(haiku: str) -> str:
+    hai = haiku.split('/')
+    if len(hai) != 3:
+        return 'Не хайку. Должно быть 3 строки.'
+    hai_len = [len(re.findall(r'[ёуеыаоэяию]', line.lower())) for line in hai]
+    a = b = c = 0
+    if hai_len[0] != 5:
+        a, b, c = 1, 5, hai_len[0]
+    elif hai_len[1] != 7:
+        a, b, c = 2, 7, hai_len[1]
+    elif hai_len[2] != 5:
+        a, b, c = 3, 5, hai_len[2]
+    return f'Не хайку. В {a} строке слогов не {b}, а {c}.' if a else 'Хайку!'
+
+
 if __name__ == '__main__':
     test.assert_equals(car_numbers('С227НА777'), 'Private')
     test.assert_equals(car_numbers('КУ22777'), 'Taxi')
@@ -57,3 +84,72 @@ if __name__ == '__main__':
 
     text = 'Это курс информатики соответствует ФГОС и ПООП, \nэто подтверждено ФГУ ФНЦ НИИСИ РАН'
     print(find_abbreviations(text), '\n')
+
+    match = re.search(r'\w+', r'$$ What??')
+    print(match)
+    print(match.group())
+    print(match[0])
+    print(match.start(), match.end())
+    print()
+
+    pattern = r'\s*([ЁёА-Яа-я]+)(\d+)\s*'
+    string = r'---   Опять45   ---'
+    match = re.search(pattern, string)
+    print(f'Found substring >{match[0]}< from the position {match.start(0)} to {match.end(0)}')
+    print(f'The group of characters >{match[1]}< from the position {match.start(1)} to {match.end(1)}')
+    print(f'The group of digits >{match[2]}< from the position {match.start(2)} to {match.end(2)}')
+    print()
+
+    pattern = r'\s*([ЁёА-Яа-я])+(\d)+\s*'
+    string = r'---   Опять45   ---'
+    match = re.search(pattern, string)
+    print(f'Found substring >{match[0]}< from the position {match.start(0)} to {match.end(0)}')
+    print(f'The group of characters >{match[1]}< from the position {match.start(1)} to {match.end(1)}')
+    print(f'The group of digits >{match[2]}< from the position {match.start(2)} to {match.end(2)}')
+    print()
+
+    pattern = r'((\d)(\d))((\d)(\d))'
+    string = r'123456789'
+    match = re.search(pattern, string)
+    print(string)
+    print(f'Found substring >{match[0]}< from the position {match.start(0)} to {match.end(0)}')
+    for i in range(1, 7):
+        print(f'Group #{i} >{match[i]}< from the position {match.start(i)} to {match.end(i)}')
+    print()
+
+    print(re.findall(r'([a-z]+)(\d*)', r'foo3, im12, go, 24buz42'))
+    # -> [('foo', '3'), ('im', '12'), ('go', ''), ('buz', '42')]
+    print()
+
+    print(re.split(r'(\s*)([+*/-])(\s*)', r'12  +  13*15   - 6'))
+    # -> ['12', '  ', '+', '  ', '13', '', '*', '', '15', '   ', '-', ' ', '6']
+    print()
+
+    print(re.split(r'\s*([+*/-])\s*', r'12  +  13*15   - 6'))
+    # -> ['12', '+', '13', '*', '15', '-', '6']
+    print()
+
+    text = 'We arrive on 03/25/2018. So you are welcome after 04/01/2018.'
+    print(re.sub(r'(\d{2})/(\d{2})/(\d{4})', r'\g<2>.\g<1>.\g<3>', text))
+    print()
+
+    text = "Некоторые хорошие слова подозрительны: хор, хоровод, хороводоводовед."
+    print(re.sub(r'\b[XxХх]\w*', repl_fun, text))
+    print()
+
+    print(re.sub('\d+', to_cube, 'Было закуплено 12 единиц техники по 410.37 рублей.'))
+    print()
+
+    text = 'Московский государственный институт международных отношений'
+    print(make_abbreviation(text))
+    text = 'микоян авиацию снабдил алкоголем, народ доволен работой авиаконструктора'
+    print(make_abbreviation(text))
+    print()
+    print(is_haiku('Вечер за окном. / Еще один день прожит. / Жизнь скоротечна...'))
+    print(is_haiku('Просто текст'))
+    print(is_haiku('Как вишня расцвела! / Она с коня согнала / И князя-гордеца.'))
+    print(is_haiku('На голой ветке / Ворон сидит одиноко… / Осенний вечер!'))
+    print(is_haiku('Тихо, тихо ползи, / Улитка, по склону Фудзи, / Вверх, до самых высот!'))
+    print(is_haiku('Жизнь скоротечна… / Думает ли об этом / Маленький мальчик.'))
+    print()
+
