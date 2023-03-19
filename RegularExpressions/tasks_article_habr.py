@@ -60,6 +60,22 @@ def is_haiku(haiku: str) -> str:
     return f'Не хайку. В {a} строке слогов не {b}, а {c}.' if a else 'Хайку!'
 
 
+def to_under_from_camel(code: str) -> str:
+    return re.sub(r'(?<=[a-z0-9])([A-Z])', r'_\1', code).lower()
+
+
+def delete_repeted_words(text: str) -> str:
+    return re.sub(r'(\b\w+\b)( +\b\1\b)+', r'\1', text)
+
+
+def deer_to_hare(text: str) -> str:
+    return re.search(r'олень,( +\w+){,5} +заяц', text)[0]
+
+
+def format_big_numbers(text: str) -> str:
+    return re.sub(r'\b\d+\b', lambda x: f'{int(x[0]):,d}', text)
+
+
 if __name__ == '__main__':
     test.assert_equals(car_numbers('С227НА777'), 'Private')
     test.assert_equals(car_numbers('КУ22777'), 'Taxi')
@@ -151,5 +167,26 @@ if __name__ == '__main__':
     print(is_haiku('На голой ветке / Ворон сидит одиноко… / Осенний вечер!'))
     print(is_haiku('Тихо, тихо ползи, / Улитка, по склону Фудзи, / Вверх, до самых высот!'))
     print(is_haiku('Жизнь скоротечна… / Думает ли об этом / Маленький мальчик.'))
+    print()
+
+    code = 'MyVar17 = OtherVar + YetAnother2Var\nTheAnswerToLifeTheUniverseAndEverything = 42'
+    print(to_under_from_camel(code))
+    print()
+
+    test_text = 'Довольно распространённая ошибка ошибка — это лишний повтор повтор слова слова. Смешно, не не правда ли? Не нужно портить хор хоровод.'
+    print(delete_repeted_words(test_text))
+    print()
+
+    test_text = 'Да он олень, а не заяц!'
+    print(deer_to_hare(test_text))
+    print()
+
+    test_text = '''12 мало 
+лучше 123 
+1234 почти 
+12354 хорошо 
+стало 123456 
+супер 1234567'''
+    print(format_big_numbers(test_text))
     print()
 
