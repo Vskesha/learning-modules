@@ -47,7 +47,7 @@ def brain_luck(code, program_input):
         elif c == '+':                  data[dp] = (data[dp] + 1) % 256
         elif c == '-':                  data[dp] = (data[dp] - 1) % 256
         elif c == '.':                  out.append(chr(data[dp]))
-        elif c == ',':                  data[dp] = ord(next(inp))
+        elif c == ',':                  data[dp] = ord(next(inp, chr(0)))
         elif c == '[' and not data[dp]: lp += 1
         elif c == ']' and data[dp]:     lp -= 1
         cp += lp // abs(lp) if lp else 1
@@ -72,3 +72,5 @@ if __name__ == '__main__':
         brain_luck(',>,<[>[->+>+<<]>>[-<<+>>]<<<-]>>.', chr(8) + chr(9)),
         chr(72)
     )
+
+    print(brain_luck(',[>,]<[.<]', 'VsKesha'))
