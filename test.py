@@ -6,7 +6,7 @@ def assert_equals(a, b, c=None):
     if c and a != b:
         print(c, end=' :')
     if a == b:
-        print(a == b)
+        print('Test passed')
     else:
         print(f'{a} should equal {b}')
 
