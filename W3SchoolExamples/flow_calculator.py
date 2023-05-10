@@ -29,8 +29,9 @@ if __name__ == '__main__':
             if operator in ('+', '-', '*', '/'):
                 wait_for_number = not wait_for_number
             elif operator == '=':
-                print(result)
-                break
+                print(f"{result=}")
+                result = None
+                wait_for_number = not wait_for_number
             else:
                 print(f"{operator} is not '+' or '-' or '/' or '*'. Try again")
                 continue
