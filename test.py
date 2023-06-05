@@ -1,4 +1,4 @@
-def describe(s: str) -> str:
+def describe(s: str):
     print(s)
 
 
