@@ -3,6 +3,20 @@ class UnionFind:
     def __init__(self, size) -> None:
         self.parent = [i for i in range(size)]
 
+    # iterative find function
+    def find2(self, node):
+        nodes_to_change = []
+
+        while node != self.parent[node]:
+            nodes_to_change.append(node)
+            node = self.parent[node]
+
+        for change_node in nodes_to_change:
+            self.parent[change_node] = node
+
+        return node
+
+    # recursive find function
     def find(self, node):
         if node == self.parent[node]:
             return node
