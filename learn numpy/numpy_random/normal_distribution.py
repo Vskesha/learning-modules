@@ -12,6 +12,6 @@ x = np.random.normal(loc=1, scale=2, size=(2, 3))
 print(x)
 print(separator)
 
-sns.distplot(np.random.normal(size=1000), hist=False)
+sns.kdeplot(np.random.normal(size=1000))
 plt.show()
 
