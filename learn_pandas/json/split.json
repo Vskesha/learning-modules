@@ -1,0 +1,9 @@
+{
+  "columns": ["name", "country"],
+  "index": [1, 2, 3],
+  "data": [
+    ["Michael", "Canada"],
+    ["John", "USA"],
+    ["Liza", "Australia"]
+  ]
+}
